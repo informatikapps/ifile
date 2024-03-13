@@ -64,7 +64,7 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
 
             {status && <div className="mb-4 text-sm font-medium text-green-600">{status}</div>}
-            <p className='mb-4 font-semibold text-center text-md'>Selamat Datang di Sistem Informasi iFile</p>
+            <p className='mb-4 font-semibold text-center text-md'>Selamat Datang di Sistem Informasi iFile!</p>
             <form onSubmit={submit}>
                 <div>
                     <InputLabel className='text-i-amber-500' htmlFor="username" value="Username" />
