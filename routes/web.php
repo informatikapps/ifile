@@ -4,6 +4,7 @@ use App\Http\Controllers\AddFileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\AdminSampahController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MySampahController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,15 @@ Route::get('/', function () {
     });
     
 Route::inertia('/', 'Home')->name('home');
+
+Route::get('/storage/{any}', function ($path) {
+    
+    if (Storage::exists($path)) {
+        return Storage::response($path);
+    }
+
+    return redirect()->route('home');
+})->where('any', '.*');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/', [HomeController::class, 'indexAdmin'])->name('admin');

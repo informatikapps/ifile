@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\File;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Storage;
 
 class AddFileController extends Controller
 {
@@ -21,46 +22,46 @@ class AddFileController extends Controller
     }
 
     public function store(Request $request)
-{
+    {
 
-    $namaFile = $request->input('namaFile');
-    $deskripsi = $request->input('deskripsi');
-    $idKategori = $request->input('kategori');
-    
-    $fileUrl = null;
-    $kategori = Kategori::find($idKategori);
-    $namaKategori = $kategori->kategori;
+        $namaFile = $request->input('namaFile');
+        $deskripsi = $request->input('deskripsi');
+        $idKategori = $request->input('kategori');
+        
+        $fileUrl = null;
+        $kategori = Kategori::find($idKategori);
+        $namaKategori = $kategori->kategori;
 
-    if ($request->input('jenisFile') === 'upload') {
+        if ($request->input('jenisFile') === 'upload') {
 
-        $file = $request->file('file');
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
 
-        $cloudinaryUpload = Cloudinary::upload($file->getRealPath(), [
-            'folder' => 'iFile/'.$namaKategori, 
-            'public_id' => $namaFile,
+            $path = $file->storeAs('public/files/' . $namaKategori, $namaFile . '.'. $extension);
+            $fileUrl = Storage::url($path);
+
+        } elseif ($request->input('jenisFile') === 'link') {
+            $fileUrl = $request->input('link');
+        }
+
+        $newFile = new File([
+            'nama_file' => $namaFile,
+            'deskripsi' => $deskripsi,
+            'url' => $fileUrl,
+            'kategori' => $request->input('kategori'), 
+            'jenis_file' => $request->input('jenisFile'),
+            'tgl_upload' => now(), 
+            'uploader' => auth()->user()->id,
         ]);
 
-        $fileUrl = cloudinary()->getPath();
-    } elseif ($request->input('jenisFile') === 'link') {
-        $fileUrl = $request->input('link');
+        $newFile->save();
+
+        if ($request->user()->isAdmin()) {
+            return redirect()->route('file.index')->with('success', 'File berhasil diperbarui.');
+        } else {
+            return redirect()->route('eksplor.index')->with('success', 'File berhasil diperbarui.');
+        }
     }
 
-    $newFile = new File([
-        'nama_file' => $namaFile,
-        'deskripsi' => $deskripsi,
-        'url' => $fileUrl,
-        'kategori' => $request->input('kategori'), 
-        'jenis_file' => $request->input('jenisFile'),
-        'tgl_upload' => now(), 
-        'uploader' => auth()->user()->id,
-    ]);
-
-    $newFile->save();
-
-    if ($request->user()->isAdmin()) {
-        return redirect()->route('file.index')->with('success', 'File berhasil diperbarui.');
-    } else {
-        return redirect()->route('eksplor.index')->with('success', 'File berhasil diperbarui.');
-    }
 }
-}
+
