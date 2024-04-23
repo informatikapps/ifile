@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Contracts\Filesystem\Cloud;
+use Illuminate\Support\Facades\Storage;
 
 class EditFileController extends Controller
 {
@@ -39,14 +40,12 @@ class EditFileController extends Controller
 
         if ($request->input('jenisFile') === 'upload') {
 
-            $Updatedfile = $request->file('file');
+            $updated = $request->file('file');
+            $extension = $updated->getClientOriginalExtension();
 
-            $cloudinaryUpload = Cloudinary::upload($Updatedfile->getRealPath(), [
-                'folder' => 'iFile/'.$namaKategori, 
-                'public_id' => $nama_file,
-            ]);
+            $path = $updated->storeAs('public/files/' . $namaKategori, $nama_file . '.'. $extension);
+            $fileUrl = Storage::url($path);
 
-            $fileUrl = cloudinary()->getPath();
         } elseif ($request->input('jenisFile') === 'link') {
             $fileUrl = $request->input('link');
         }

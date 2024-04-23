@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\File;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Storage;
 
 class AdminSampahController extends Controller
 {
@@ -32,12 +33,11 @@ class AdminSampahController extends Controller
     public function destroy($id)
     {
         $trash = Sampah::findOrFail($id);
-        $nama_file = $trash->nama_file;
+        $path = $trash->url;
 
-        if($trash->jenis_file === 'upload') {
-            Cloudinary::destroy($nama_file);
+        if ($trash->jenis_file === 'upload') {
+            Storage::delete($path);
         }
-
         $trash->delete();
 
         return redirect()->route('sampah.index')->with('success', 'File successfully deleted.');

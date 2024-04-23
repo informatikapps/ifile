@@ -33,14 +33,8 @@ export default function Addfile({ auth, kategori }) {
         formData.append('namaFile', data.namaFile);
         formData.append('deskripsi', data.deskripsi);
         formData.append('kategori', data.kategori);
-        if (data.jenisFile === 'upload') {
-            const fileExtension = data.file.name.split('.').pop(); // Dapatkan ekstensi file
-            const fileNameWithExtension = data.namaFile + '.' + fileExtension; // Gabungkan nama file dengan ekstensi
-            formData.append('file', data.file, fileNameWithExtension); // Tambahkan file dengan nama file yang memiliki ekstensi
-            formData.set('Content-Type', data.file.type); // Set tipe konten manual berdasarkan tipe file
-        } else {
-            formData.append('link', data.link);
-        }
+        formData.append('file', data.file);
+        console.log(data.kategori);
 
         post(route('tambah-file.store'), formData);
     };
