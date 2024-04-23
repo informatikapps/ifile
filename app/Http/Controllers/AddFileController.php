@@ -28,7 +28,7 @@ class AddFileController extends Controller
         $deskripsi = $request->input('deskripsi');
         $idKategori = $request->input('kategori');
         
-        $fileUrl = null;
+        $fileUrl = '';
         $kategori = Kategori::find($idKategori);
         $namaKategori = $kategori->kategori;
 
