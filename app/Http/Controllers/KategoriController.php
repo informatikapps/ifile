@@ -74,7 +74,7 @@ class KategoriController extends Controller
         return Redirect::route('home');
     }
 
-    $files = File::where('kategori', $k->id)->with(['kategori', 'uploader'])->get();
+    $files = File::where('kategori', $k->id)->with(['kategori', 'uploader'])->orderBy('tgl_upload', 'desc')->get();
     $userRole = 'uploader';
 
     $files->transform(function ($file) use($userRole) {

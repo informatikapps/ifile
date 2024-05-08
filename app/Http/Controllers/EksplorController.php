@@ -14,7 +14,7 @@ class EksplorController extends Controller
 {
     public function index()
     {
-        $files = File::with(['kategori', 'uploader'])->get();
+        $files = File::with(['kategori', 'uploader'])->orderBy('tgl_upload', 'desc')->get();
         $kategori = Kategori::all();
         $userRole = 'uploader';
 

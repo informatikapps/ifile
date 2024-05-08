@@ -15,7 +15,7 @@ class MySampahController extends Controller
 {
     public function index()
     {
-        $trashes= Sampah::with(['kategori', 'waster'])->get();
+        $trashes= Sampah::with(['kategori', 'waster'])->orderBy('tgl_buang', 'desc')->get();
         $kategori = Kategori::all();
         $userRole = 'waster';
 

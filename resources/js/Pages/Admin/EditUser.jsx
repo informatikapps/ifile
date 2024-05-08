@@ -17,7 +17,11 @@ export default function AddUser({ auth, user, kategori }) {
         e.preventDefault();
 
         if ((!data.username || !data.password || !data.role)) {
-            alert('Semua kolom harus diisi');
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi kelengkapan datanya dulu ya!",
+                icon: "question"
+            });
             return;
         }
 

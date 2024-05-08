@@ -56,9 +56,9 @@ export default function Sampah({ auth, files, kategori }) {
             icon: 'warning',
             showCancelButton: true,
             cancelButtonColor: '#F8B9CF',
-            confirmButtonColor: '#E91E63',
+            confirmButtonColor: '#fe8e00',
             confirmButtonText: 'Pulihkan',
-            cancelButtonText: '<span style="color: #E91E63;">cancel</span>',
+            cancelButtonText: '<span style="color: #fe8e00;">cancel</span>',
             reverseButtons: true,
             customClass: {
                 confirmButton: 'custom-confirm-button-class',

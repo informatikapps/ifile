@@ -24,8 +24,30 @@ export default function Addfile({ auth, kategori }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if ((!data.namaFile || !data.deskripsi || !data.kategori) && (!data.file || !data.link)) {
-            alert('Semua kolom harus diisi');
+        if (!data.namaFile || !data.deskripsi || !data.kategori) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi kelengkapan datanya dulu ya!",
+                icon: "question",
+                confirmButtonColor: "#ffffff"
+            });
+            return;
+        }
+
+        if (data.jenisFile === 'upload' && !data.file) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih file dulu ya!",
+                icon: "question"
+            });
+            return;
+        }
+        if (data.jenisFile === 'link' && !data.link) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi URL dulu ya!",
+                icon: "question"
+            });
             return;
         }
 

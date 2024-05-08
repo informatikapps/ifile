@@ -37,8 +37,8 @@ export default function MyFile({ auth, files, kategori }) {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#F8B9CF',
-            cancelButtonColor: '#E91E63',
-            confirmButtonText: '<span style="color: #E91E63;">Hapus</span>',
+            cancelButtonColor: '#fe8e00',
+            confirmButtonText: '<span style="color: #fe8e00;">Hapus</span>',
             reverseButtons: true,
             customClass: {
                 confirmButton: 'custom-confirm-button-class',

@@ -18,7 +18,11 @@ export default function AddKategori({ auth, kategori }) {
         e.preventDefault();
 
         if ((!data.kategori || !data.keterangan)) {
-            alert('Semua kolom harus diisi');
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi kelengkapan datanya dulu ya!",
+                icon: "question"
+            });
             return;
         }
 

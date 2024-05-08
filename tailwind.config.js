@@ -15,7 +15,7 @@ export default {
         colors: {
             'i-yellow-500': '#FF9800',
             'i-orange-500': '#F44336',
-            'i-pink-500': '#E91E63',
+            'i-pink-500': '#fe8e00',
             'i-pink-300': '#F06896',
             'i-pink-100': '#F8B9CF',
             'i-pink-50': '#FDE9EF',

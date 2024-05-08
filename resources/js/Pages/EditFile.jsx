@@ -9,6 +9,7 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import Dropdown from '@/Components/Dropdown';
 import { IconEdit, IconPencil, IconArrowLeft } from '@tabler/icons-react';
+import Swal from 'sweetalert2';
 
 export default function EditFile({ auth, file, kategori }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -23,8 +24,32 @@ export default function EditFile({ auth, file, kategori }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if ((!data.nama_file || !data.deskripsi || !data.kategori) && (!data.file || !data.link)) {
-            alert('Semua kolom harus diisi');
+        if (!data.nama_file || !data.deskripsi || !data.kategori) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi kelengkapan datanya dulu ya!",
+                icon: "question",
+                confirmButtonColor: "#fe8e00"
+            });
+            return;
+        }
+
+        if (data.jenisFile === 'upload' && !data.file) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih file dulu ya!",
+                icon: "question",
+                confirmButtonColor: "#fe8e00"
+            });
+            return;
+        }
+        if (data.jenisFile === 'link' && !data.link) {
+            Swal.fire({
+                title: "Ada field kosong!",
+                text: "Jangan lupa pilih isi URL dulu ya!",
+                icon: "question",
+                confirmButtonColor: "#fe8e00"
+            });
             return;
         }
 
@@ -111,6 +136,7 @@ export default function EditFile({ auth, file, kategori }) {
                                     value={data.link}
                                     onChange={(e) => setData('link', e.target.value)}
                                     className="block w-full mt-1"
+                                    required
                                 />
                             </div>
                         )}
@@ -123,6 +149,7 @@ export default function EditFile({ auth, file, kategori }) {
                                     id="file"
                                     onChange={(e) => setData('file', e.target.files[0])}
                                     className='w-full mt-1 text-sm border-i-amber-500'
+                                    required
                                 />
                                 <InputError message={errors.file} className="mt-2 text-[#ff0000]" />
                             </div>
