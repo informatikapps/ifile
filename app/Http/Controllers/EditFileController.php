@@ -43,7 +43,7 @@ class EditFileController extends Controller
             $updated = $request->file('file');
             $extension = $updated->getClientOriginalExtension();
 
-            $path = $updated->storeAs('public/files/' . $namaKategori, $nama_file . '.'. $extension);
+            $path = $updated->storeAs('public/files/' . $namaKategori . '/' . $nama_file . '.'. $extension);
             $fileUrl = Storage::url($path);
 
         } elseif ($request->input('jenisFile') === 'link') {

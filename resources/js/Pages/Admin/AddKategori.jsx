@@ -7,6 +7,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
+import Swal from 'sweetalert2';
 
 export default function AddKategori({ auth, kategori }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -30,7 +31,29 @@ export default function AddKategori({ auth, kategori }) {
         formData.append('namaFile', data.kategori);
         formData.append('deskripsi', data.keterangan);
 
-        post(route('tambah-kategori.store'), formData);
+        post(route('tambah-kategori.store'), {
+            onSuccess: () => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Kategori berhasil ditambahkan!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    reset();
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    position: "top-end",
+                    title: "Gagal!",
+                    text: "Ada masalah saat menambahkan kategori.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     };
 
     return (

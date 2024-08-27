@@ -125,6 +125,19 @@ export default function Sampah({ auth, files, kategori }) {
                             </div>
                         </div>
                         <div className='flex items-center gap-4'>
+                            <div className='flex items-end gap-2 h-fit'>
+                                <select
+                                    name="page"
+                                    id="page"
+                                    className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
+                                    onChange={handlePaging}
+                                >
+                                    <option value="10">10 Data</option>
+                                    <option value="20">25 Data</option>
+                                    <option value="50">50 Data</option>
+                                    <option value="100">100 Data</option>
+                                </select>
+                            </div>
                             <SearchLink
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 value={searchQuery}
@@ -193,20 +206,6 @@ export default function Sampah({ auth, files, kategori }) {
                             >
                                 <IconChevronsRight size={18} strokeWidth={1.5} />
                             </button>
-                        </div>
-                        <div className='flex items-end gap-2 h-fit'>
-                            <p className='text-[12px] text-gray-600'>Data per halaman</p>
-                            <select
-                                name="page"
-                                id="page"
-                                className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
-                                onChange={handlePaging}
-                            >
-                                <option value="10">10</option>
-                                <option value="20">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
                         </div>
                     </div>
                 </div>

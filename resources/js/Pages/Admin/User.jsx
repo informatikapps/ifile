@@ -13,7 +13,7 @@ export default function User({ auth, users, kategori }) {
     const contentRef = useRef(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredUsers, setFilteredUser] = useState(users);
-    const [usersPerPage] = useState(5);
+    const [usersPerPage, setUserPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const MAX_PAGE_USERS = 3;
     const startPage = Math.max(1, currentPage - Math.floor(MAX_PAGE_USERS / 2));
@@ -42,6 +42,11 @@ export default function User({ auth, users, kategori }) {
                 window.location.href = route('delete-user', { id: id });
             }
         });
+    };
+
+    const handlePaging = (e) => {
+        setUserPerPage(e.target.value);
+        setCurrentPage(1);
     };
 
     const searchFilter = () => {
@@ -113,11 +118,30 @@ export default function User({ auth, users, kategori }) {
                                 </Link>
                             </div>
                         </div>
+                        <div>
+
+                        </div>
                         <div className='flex items-center justify-between'>
-                            <SearchLink
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                value={searchQuery}
-                            />
+                            <div className='flex items-center gap-4'>
+                                <div className='flex items-end gap-2 h-fit'>
+                                    <select
+                                        name="page"
+                                        id="page"
+                                        className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
+                                        onChange={handlePaging}
+                                    >
+                                        <option value="10">10 Data</option>
+                                        <option value="20">25 Data</option>
+                                        <option value="50">50 Data</option>
+                                        <option value="100">100 Data</option>
+                                    </select>
+                                </div>
+                                <SearchLink
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    value={searchQuery}
+                                />
+
+                            </div>
                             <Link href={route('tambah-user')} className='px-4 py-2 text-sm text-white text-gray-600 rounded-md h-fit hover:text-gray-900 focus:bg-i-amber-500/60 bg-i-amber-500'>
                                 +Tambah User
                             </Link>

@@ -59,7 +59,7 @@ export default function ShowKategori({ auth, files, kategori, selectedKategori }
             text: 'Anda yakin ingin menghapus file ini?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#F8B9CF',
+            confirmButtonColor: '#fff2df',
             cancelButtonColor: '#fe8e00',
             confirmButtonText: '<span style="color: #fe8e00;">Hapus</span>',
             reverseButtons: true,
@@ -133,6 +133,19 @@ export default function ShowKategori({ auth, files, kategori, selectedKategori }
                             </div>
                         </div>
                         <div className='flex items-center gap-4'>
+                            <div className='flex items-end gap-2 h-fit'>
+                                <select
+                                    name="page"
+                                    id="page"
+                                    className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
+                                    onChange={handlePaging}
+                                >
+                                    <option value="10">10 Data</option>
+                                    <option value="20">25 Data</option>
+                                    <option value="50">50 Data</option>
+                                    <option value="100">100 Data</option>
+                                </select>
+                            </div>
                             <SearchLink
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 value={searchQuery}
@@ -189,7 +202,7 @@ export default function ShowKategori({ auth, files, kategori, selectedKategori }
                             ))}
                         </table>
                     </div>
-                    <div className='flex items-center justify-between mt-4'>
+                    <div className='flex items-center justify-center mt-4'>
 
                         <div class="flex justify-center gap-2 ">
                             <button
@@ -209,20 +222,6 @@ export default function ShowKategori({ auth, files, kategori, selectedKategori }
                             >
                                 <IconChevronsRight size={18} strokeWidth={1.5} />
                             </button>
-                        </div>
-                        <div className='flex items-end gap-2 h-fit'>
-                            <p className='text-[12px] text-gray-600'>Data per halaman</p>
-                            <select
-                                name="page"
-                                id="page"
-                                className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
-                                onChange={handlePaging}
-                            >
-                                <option value="10">10</option>
-                                <option value="20">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
                         </div>
                     </div>
                 </div>

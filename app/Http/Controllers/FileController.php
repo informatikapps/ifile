@@ -17,7 +17,7 @@ class FileController extends Controller
         $userRole = 'uploader';
 
         $files->transform(function ($file) use ($userRole) {
-            $file->formattedDate = Carbon::createFromFormat('Y-m-d', $file->tgl_upload)->format('d M Y');
+            $file->formattedDate = Carbon::parse($file->tgl_upload)->format('d M Y');
             $file->userRole = $userRole;
             return $file;
         });

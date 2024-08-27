@@ -5,6 +5,7 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import { IconArrowLeft } from '@tabler/icons-react';
 import InputError from '@/Components/InputError';
+import Swal from 'sweetalert2';
 
 export default function AddUser({ auth, kategori }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -30,7 +31,29 @@ export default function AddUser({ auth, kategori }) {
         formData.append('password', data.password);
         formData.append('role', data.role);
 
-        post(route('tambah-user.store'), formData);
+        post(route('tambah-user.store'), {
+            onSuccess: () => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Pengguna berhasil ditambahkan!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    reset();
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    position: "top-end",
+                    title: "Gagal!",
+                    text: "Ada masalah saat menambahkan pengguna.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     };
 
     return (

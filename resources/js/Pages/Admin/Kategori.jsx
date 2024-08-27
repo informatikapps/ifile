@@ -15,14 +15,14 @@ export default function Kategori({ auth, kategori }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterdedKategori, setfilterdedKategori] = useState(kategori);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filesPerPage] = useState(5);
+    const [kategoriPerPage, setKategoriPerPage] = useState(10);
 
     const MAX_PAGE_LINKS = 3;
     const startPage = Math.max(1, currentPage - Math.floor(MAX_PAGE_LINKS / 2));
-    const endPage = Math.min(Math.ceil(filterdedKategori.length / filesPerPage), startPage + MAX_PAGE_LINKS - 1);
+    const endPage = Math.min(Math.ceil(filterdedKategori.length / kategoriPerPage), startPage + MAX_PAGE_LINKS - 1);
     const pageNumbersToShow = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-    const indexOfLastFile = currentPage * filesPerPage;
-    const indexOfFirstFile = indexOfLastFile - filesPerPage;
+    const indexOfLastFile = currentPage * kategoriPerPage;
+    const indexOfFirstFile = indexOfLastFile - kategoriPerPage;
     const currentKategori = filterdedKategori.slice(indexOfFirstFile, indexOfLastFile);
     const pageNumber = [];
 
@@ -32,7 +32,7 @@ export default function Kategori({ auth, kategori }) {
             text: 'Anda yakin ingin menghapus permanen kategori ini?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#F8B9CF',
+            confirmButtonColor: '#fff2df',
             cancelButtonColor: '#fe8e00',
             confirmButtonText: '<span style="color: #fe8e00;">Hapus</span>',
             reverseButtons: true,
@@ -42,9 +42,15 @@ export default function Kategori({ auth, kategori }) {
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = route('delete-kategori', { id: id });
+
             }
         });
     }
+
+    const handlePaging = (e) => {
+        setKategoriPerPage(e.target.value);
+        setCurrentPage(1);
+    };
 
     const searchFilter = () => {
         if (searchQuery.trim() === '') {
@@ -73,13 +79,13 @@ export default function Kategori({ auth, kategori }) {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    for (let i = 1; i <= Math.ceil(filterdedKategori.length / filesPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filterdedKategori.length / kategoriPerPage); i++) {
         pageNumber.push(i);
     }
 
     const renderPageNumbers = pageNumbersToShow.map((number, index, array) => {
         const isEllipsisStart = index === 0 && number > 1;
-        const isEllipsisEnd = index === array.length - 1 && number < Math.ceil(filterdedKategori.length / filesPerPage);
+        const isEllipsisEnd = index === array.length - 1 && number < Math.ceil(filterdedKategori.length / kategoriPerPage);
 
         return (
             <React.Fragment key={number}>
@@ -121,10 +127,25 @@ export default function Kategori({ auth, kategori }) {
                             </div>
                         </div>
                         <div className='flex items-center justify-between'>
-                            <SearchLink
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                value={searchQuery}
-                            />
+                            <div className='flex gap-4'>
+                                <div className='flex items-end gap-2 h-fit'>
+                                    <select
+                                        name="page"
+                                        id="page"
+                                        className='block mt-1 text-sm rounded-md w-fit border-i-amber-500 h-fit focus:border-i-amber-500 focus:ring-i-amber-500'
+                                        onChange={handlePaging}
+                                    >
+                                        <option value="10">10 Data</option>
+                                        <option value="25">25 Data</option>
+                                        <option value="50">50 Data</option>
+                                        <option value="100">100 Data</option>
+                                    </select>
+                                </div>
+                                <SearchLink
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    value={searchQuery}
+                                />
+                            </div>
                             <Link href={route('tambah-kategori')} className='px-4 py-2 text-sm text-white text-gray-600 rounded-md h-fit hover:text-gray-900 focus:bg-i-amber-500/60 bg-i-amber-500'>
                                 +Tambah Kategori
                             </Link>
@@ -170,8 +191,8 @@ export default function Kategori({ auth, kategori }) {
                         </ul>
                         <button
                             onClick={() => paginate(currentPage + 1)}
-                            disabled={currentPage === Math.ceil(filterdedKategori.length / filesPerPage)}
-                            className={`px-4 py-2 text-sm text-white text-gray-600 rounded-md hover:text-gray-900 ${currentPage === Math.ceil(filterdedKategori.length / filesPerPage) ? 'cursor-default bg-i-amber-300 text-white' : 'bg-i-amber-500'}`}
+                            disabled={currentPage === Math.ceil(filterdedKategori.length / kategoriPerPage)}
+                            className={`px-4 py-2 text-sm text-white text-gray-600 rounded-md hover:text-gray-900 ${currentPage === Math.ceil(filterdedKategori.length / kategoriPerPage) ? 'cursor-default bg-i-amber-300 text-white' : 'bg-i-amber-500'}`}
                         >
                             <IconChevronsRight size={18} strokeWidth={1.5} />
                         </button>

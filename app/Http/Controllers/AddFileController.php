@@ -37,7 +37,7 @@ class AddFileController extends Controller
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
 
-            $path = $file->storeAs('public/files/' . $namaKategori, $namaFile . '.'. $extension);
+            $path = $file->storeAs("public/files/" . $namaKategori . '/'. $namaFile . '.'. $extension);
             $fileUrl = Storage::url($path);
 
         } elseif ($request->input('jenisFile') === 'link') {

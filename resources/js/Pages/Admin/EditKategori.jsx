@@ -7,6 +7,7 @@ import { IconPencil, IconArrowLeft } from "@tabler/icons-react";
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
+import Swal from 'sweetalert2';
 
 export default function EditKategori({ auth, kategori, allKategori }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -30,7 +31,29 @@ export default function EditKategori({ auth, kategori, allKategori }) {
         formData.append('kategori', data.kategori);
         formData.append('keterangan', data.keterangan);
 
-        post(route('edit-kategori.update', { id: kategori.id }), formData);
+        post(route('edit-kategori.update', { id: kategori.id }), {
+            onSuccess: () => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Kategori berhasil diperbarui!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    reset();
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    position: "top-end",
+                    title: "Gagal!",
+                    text: "Ada masalah saat memperbarui kategori.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     }
 
     return (

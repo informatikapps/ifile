@@ -5,6 +5,7 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { IconPencil, IconArrowLeft } from '@tabler/icons-react';
+import Swal from 'sweetalert2';
 
 export default function AddUser({ auth, user, kategori }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -31,7 +32,29 @@ export default function AddUser({ auth, user, kategori }) {
         formData.append('role', data.role);
         console.log(data);
 
-        post(route('edit-user.update', user.id), formData);
+        post(route('edit-user.update', user.id), {
+            onSuccess: () => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Pengguna berhasil diperbarui!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    reset();
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    position: "top-end",
+                    title: "Gagal!",
+                    text: "Ada masalah saat memperbarui pengguna.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     };
 
     return (

@@ -22,7 +22,7 @@ class AdminSampahController extends Controller
         $userRole = 'waster';
 
         $trashes->transform(function ($trash) use ($userRole) {
-            $trash->formattedDate = Carbon::createFromFormat('Y-m-d', $trash->tgl_buang)->format('d M Y');
+            $trash->formattedDate = Carbon::parse($trash->tgl_buang)->format('d M Y');
             $trash->userRole = $userRole;
             return $trash;
         });
